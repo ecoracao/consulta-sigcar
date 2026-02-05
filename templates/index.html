@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Consulta SIGCAR (TO)</title>
+
+  <style>
+    :root{
+      --bg:#0b1220;
+      --bg2:#0f1a2f;
+
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.08);
+
+      --text:#e6edf6;
+      --muted:#a9b4c7;
+
+      --border: rgba(255,255,255,.10);
+      --border2: rgba(255,255,255,.14);
+
+      --shadow: 0 18px 50px rgba(0,0,0,.55);
+      --shadow2: 0 10px 28px rgba(0,0,0,.40);
+
+      --green:#22c55e;
+      --green2:#16a34a;
+      --red:#ef4444;
+      --amber:#f59e0b;
+      --blue:#60a5fa;
+
+      --glass: blur(10px);
+    }
+
+    *{ box-sizing: border-box; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 600px at 18% 0%, rgba(96,165,250,.18), transparent 55%),
+        radial-gradient(900px 520px at 85% 25%, rgba(34,197,94,.12), transparent 60%),
+        radial-gradient(900px 520px at 50% 100%, rgba(245,158,11,.10), transparent 55%),
+        linear-gradient(180deg, var(--bg), #070b14);
+      min-height: 100vh;
+    }
+
+    .wrap{ max-width: 1120px; margin: 26px auto; padding: 0 16px; }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      backdrop-filter: var(--glass);
+      -webkit-backdrop-filter: var(--glass);
+    }
+
+    .topBar{
+      padding: 16px 18px;
+      display:flex;
+      align-items:flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--border);
+      background:
+        radial-gradient(900px 200px at 20% 0%, rgba(96,165,250,.15), transparent 55%),
+        radial-gradient(900px 200px at 90% 0%, rgba(34,197,94,.14), transparent 55%);
+    }
+
+    .title{
+      display:flex; align-items:center; gap: 12px;
+    }
+
+    .flagBox{
+      width: 36px; height: 26px;
+      border-radius: 8px;
+      box-shadow: 0 10px 20px rgba(0,0,0,.35);
+      border: 1px solid rgba(255,255,255,.14);
+      overflow:hidden;
+      background:#fff;
+      flex: 0 0 auto;
+    }
+
+    .titleText h2{
+      margin:0;
+      font-size: 22px;
+      letter-spacing: .2px;
+      font-weight: 900;
+    }
+    .titleText p{
+      margin: 3px 0 0 0;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .badgeTop{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border2);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      font-weight: 900;
+      font-size: 12px;
+    }
+
+    .formBody{ padding: 16px 18px 18px 18px; }
+
+    .row{
+      display:flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      align-items: end;
+    }
+
+    label{
+      display:block;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .7px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      color: #dbe7ff;
+    }
+
+    input{
+      width: 420px;
+      max-width: 100%;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      outline: none;
+      font-size: 16px;
+      transition: box-shadow .15s ease, border-color .15s ease, background .15s ease;
+    }
+    input::placeholder{ color: rgba(230,237,246,.55); }
+    input:focus{
+      border-color: rgba(96,165,250,.55);
+      box-shadow: 0 0 0 4px rgba(96,165,250,.16);
+      background: rgba(255,255,255,.08);
+    }
+
+    .hint{
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 8px;
+    }
+
+    .btn{
+      padding: 12px 20px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, #24d36a, #16a34a);
+      color: #06120a;
+      font-weight: 1000;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: var(--shadow2);
+      min-width: 170px;
+      transition: transform .06s ease, filter .15s ease;
+    }
+    .btn:active{ transform: translateY(1px); }
+    .btn[disabled]{ filter: grayscale(.25) brightness(.85); cursor: not-allowed; }
+
+    .btnSecondary{
+      padding: 10px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: var(--shadow2);
+    }
+    .btnSecondary[disabled]{ opacity:.55; cursor: not-allowed; }
+
+    .msg{
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      display:none;
+      border: 1px solid transparent;
+      font-weight: 900;
+      backdrop-filter: var(--glass);
+    }
+    .msg.error{ background: rgba(239,68,68,.16); color:#ffd6d6; border-color: rgba(239,68,68,.35); }
+    .msg.ok{ background: rgba(34,197,94,.14); color:#d9ffe6; border-color: rgba(34,197,94,.35); }
+
+    /* RESULTADOS */
+    .resultWrap{ margin-top: 18px; }
+
+    .resultHeader{
+      padding: 16px 18px;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+    }
+    .resultHeader h3{
+      margin:0;
+      font-size: 16px;
+      letter-spacing: .2px;
+      font-weight: 1000;
+    }
+
+    .chip{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.14);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 900;
+      box-shadow: 0 10px 20px rgba(0,0,0,.25);
+    }
+
+    /* STRIP “Startup” */
+    #strip{
+      display:none;
+      margin: 14px 18px 0 18px;
+      border: 1px solid rgba(255,255,255,.12);
+      background:
+        linear-gradient(90deg, rgba(34,197,94,.18), rgba(96,165,250,.14), rgba(245,158,11,.12));
+      border-radius: 16px;
+      padding: 12px 14px;
+      box-shadow: var(--shadow2);
+      align-items:center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .pill{
+      display:inline-flex; align-items:center; gap: 8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-weight: 1000;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+    }
+    .pill.ok{ border-color: rgba(34,197,94,.35); background: rgba(34,197,94,.18); }
+    .pill.bad{ border-color: rgba(239,68,68,.35); background: rgba(239,68,68,.16); }
+    .pill.warn{ border-color: rgba(245,158,11,.35); background: rgba(245,158,11,.16); }
+
+    .stripRight{
+      color: rgba(230,237,246,.90);
+      font-weight: 900;
+      opacity: .95;
+    }
+
+    /* SUMMARY (cards + barra + risco) */
+    #summary{ padding: 16px 18px 18px 18px; display:none; }
+
+    .cards{
+      display: grid;
+      grid-template-columns: repeat(4, minmax(190px, 1fr));
+      gap: 12px;
+    }
+
+    .miniCard{
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      border-radius: 18px;
+      padding: 12px 12px;
+      box-shadow: var(--shadow2);
+      position: relative;
+      overflow:hidden;
+      backdrop-filter: var(--glass);
+    }
+    .miniCard::before{
+      content:"";
+      position:absolute;
+      top:0; left:0; right:0;
+      height: 4px;
+      background: rgba(255,255,255,.18);
+    }
+    .miniCard.good::before{ background: var(--green); }
+    .miniCard.warn::before{ background: var(--amber); }
+    .miniCard.bad::before{ background: var(--red); }
+
+    .miniLabel{
+      color: rgba(230,237,246,.78);
+      font-size: 12px;
+      font-weight: 1000;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      display:flex;
+      gap: 8px;
+      align-items:center;
+      margin-bottom: 8px;
+    }
+    .miniValue{
+      font-size: 16px;
+      font-weight: 1000;
+      line-height: 1.25;
+      word-break: break-word;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-weight: 1000;
+      font-size: 13px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+    }
+    .badge.ok{ background: rgba(34,197,94,.18); border-color: rgba(34,197,94,.35); }
+    .badge.bad{ background: rgba(239,68,68,.16); border-color: rgba(239,68,68,.35); }
+    .badge.warn{ background: rgba(245,158,11,.16); border-color: rgba(245,158,11,.35); }
+
+    .barWrap{
+      margin-top: 12px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      border-radius: 18px;
+      padding: 12px;
+      box-shadow: var(--shadow2);
+      backdrop-filter: var(--glass);
+    }
+
+    .barHeader{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .barHeader .left{ font-weight: 1000; }
+
+    .kpis{
+      display:flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .kpi{
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      font-weight: 1000;
+      font-size: 13px;
+      display:inline-flex;
+      gap: 8px;
+      align-items:center;
+      color: var(--text);
+    }
+    .dot{ width:10px; height:10px; border-radius:50%; display:inline-block; }
+    .dot.ok{ background: var(--green); }
+    .dot.bad{ background: var(--red); }
+
+    .kpi-total{
+      border-color: rgba(34,197,94,.35);
+      background: rgba(34,197,94,.16);
+    }
+
+    .bar{
+      width:100%;
+      height: 16px;
+      background: rgba(255,255,255,.08);
+      border-radius: 999px;
+      overflow:hidden;
+      display:flex;
+    }
+    .barPart{ height:100%; transition: width .25s ease; }
+    .barPart.legal{ background: var(--green); }
+    .barPart.ilegal{ background: var(--red); }
+
+    .barFooter{
+      display:flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      color: rgba(230,237,246,.75);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .riskBox{
+      margin-top: 10px;
+      border-radius: 16px;
+      padding: 10px 12px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      box-shadow: var(--shadow2);
+      backdrop-filter: var(--glass);
+    }
+    .riskLeft{ font-weight: 1000; letter-spacing:.2px; }
+    .riskTag{
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-weight: 1000;
+      font-size: 13px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+    }
+    .riskLow{ background: rgba(34,197,94,.18); border-color: rgba(34,197,94,.35); }
+    .riskMid{ background: rgba(245,158,11,.16); border-color: rgba(245,158,11,.35); }
+    .riskHigh{ background: rgba(239,68,68,.16); border-color: rgba(239,68,68,.35); }
+
+    /* TABELA */
+    #resultArea{ padding: 0 18px 18px 18px; display:none; }
+    .tableTitle{
+      margin: 14px 0 10px;
+      font-size: 14px;
+      font-weight: 1000;
+      color: rgba(230,237,246,.92);
+    }
+
+    table{
+      width:100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 16px;
+      background: rgba(255,255,255,.06);
+      box-shadow: var(--shadow2);
+      backdrop-filter: var(--glass);
+    }
+    th, td{
+      padding: 12px 12px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      text-align:left;
+      font-size: 14px;
+      color: var(--text);
+    }
+    th{
+      background: rgba(255,255,255,.07);
+      font-weight: 1000;
+    }
+    tr:last-child td{ border-bottom: none; }
+
+    #extras{
+      margin-top: 10px;
+      color: rgba(230,237,246,.72);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    @media (max-width: 980px){
+      .cards{ grid-template-columns: repeat(2, minmax(190px, 1fr)); }
+    }
+    @media (max-width: 560px){
+      .cards{ grid-template-columns: 1fr; }
+      .btn{ width:100%; }
+      input{ width:100%; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <!-- CARD FORM -->
+    <div class="card">
+      <div class="topBar">
+        <div class="title">
+          <div class="flagBox" aria-hidden="true">
+            <!-- Bandeira do Tocantins embutida -->
+            <svg viewBox="0 0 120 84" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+              <rect width="120" height="84" fill="#0a7a3a"/>
+              <polygon points="0,72 0,84 120,12 120,0" fill="#ffd400"/>
+              <circle cx="34" cy="26" r="10" fill="#ffd400"/>
+              <g fill="#ffffff">
+                <polygon points="34,8 37,20 34,18 31,20"/>
+                <polygon points="16,26 28,23 26,26 28,29"/>
+                <polygon points="34,44 31,32 34,34 37,32"/>
+                <polygon points="52,26 40,29 42,26 40,23"/>
+              </g>
+            </svg>
+          </div>
+
+          <div class="titleText">
+            <h2>Consulta por SIGCAR — Tocantins</h2>
+            <p>Consulta rápida de alertas por imóvel (SIGCAR), com resumo visual, risco e relatório PDF.</p>
+          </div>
+        </div>
+
+        <div class="badgeTop">⚡ Dashboard</div>
+      </div>
+
+      <div class="formBody">
+        <div class="row">
+          <div style="flex: 1 1 360px;">
+            <label for="sigcar">SIGCAR (obrigatório)</label>
+            <input id="sigcar" inputmode="numeric" placeholder="Ex: 456145" />
+            <div class="hint">Digite apenas números.</div>
+          </div>
+
+          <div style="flex: 1 1 240px;">
+            <label for="ano">Ano (opcional)</label>
+            <input id="ano" inputmode="numeric" placeholder="Ex: 2023" />
+            <div class="hint">Se vazio, busca o ano mais atual.</div>
+          </div>
+
+          <div style="flex: 0 0 auto;">
+            <button id="btn" class="btn">Consultar</button>
+          </div>
+        </div>
+
+        <div id="msg" class="msg"></div>
+      </div>
+    </div>
+
+    <!-- CARD RESULTADOS -->
+    <div id="pdfArea" class="card resultWrap" style="display:none;">
+      <div class="resultHeader">
+        <h3>Resultado</h3>
+
+        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+          <div id="source" class="chip" style="display:none;"></div>
+          <button id="btnPdf" class="btnSecondary" disabled>📄 Gerar relatório em PDF</button>
+        </div>
+      </div>
+
+      <!-- strip startup -->
+      <div id="strip">
+        <div id="stripPill" class="pill">—</div>
+        <div class="stripRight" id="stripRight">—</div>
+      </div>
+
+      <!-- ✅ RESUMO (cards + barra + risco) -->
+      <div id="summary">
+        <div class="cards">
+          <div id="cardStatus" class="miniCard">
+            <div class="miniLabel">✅ Status</div>
+            <div class="miniValue">
+              <span id="badgeStatus" class="badge">—</span>
+            </div>
+          </div>
+
+          <div class="miniCard">
+            <div class="miniLabel">📏 Área desmatada (ha)</div>
+            <div class="miniValue" id="cardAreaTotal">—</div>
+          </div>
+
+          <div class="miniCard">
+            <div class="miniLabel">🏙️ Município</div>
+            <div class="miniValue" id="cardMunicipio">—</div>
+          </div>
+
+          <div class="miniCard">
+            <div class="miniLabel">🏡 Imóvel</div>
+            <div class="miniValue" id="cardImovel">—</div>
+          </div>
+        </div>
+
+        <div class="barWrap">
+          <div class="barHeader">
+            <div class="left">Proporção de Desmatamento Autorizado x Não Autorizado</div>
+            <div class="kpis">
+              <span class="kpi kpi-total" id="kpiTotal"><strong>Total:</strong> —</span>
+              <span class="kpi"><span class="dot ok"></span> <span id="lblLegal">Autorizado: —</span> <small id="pctLegal" style="opacity:.85;"></small></span>
+              <span class="kpi"><span class="dot bad"></span> <span id="lblIlegal">Não autorizado: —</span> <small id="pctIlegal" style="opacity:.85;"></small></span>
+            </div>
+          </div>
+
+          <div class="bar">
+            <div id="barLegal" class="barPart legal" style="width:0%"></div>
+            <div id="barIlegal" class="barPart ilegal" style="width:0%"></div>
+          </div>
+
+          <div class="barFooter">
+            <span id="barFooterLeft">—</span>
+            <span id="barFooterRight">—</span>
+          </div>
+        </div>
+
+        <div class="riskBox">
+          <div class="riskLeft">Classificação de risco ambiental</div>
+          <div id="riskTag" class="riskTag">—</div>
+        </div>
+      </div>
+
+      <!-- ✅ Detalhes -->
+      <div id="resultArea">
+        <div class="tableTitle">Detalhes da consulta</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Campo</th>
+              <th>Valor</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+        <div id="extras"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- libs para PDF -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
