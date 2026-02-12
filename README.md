@@ -1,2 +1,2 @@
 Requirements:
-python -m pip install fastapi uvicorn jinja2 python-multipart
+python -m pip install fastapi uvicorn[standard] jinja2 python-multipart requests
