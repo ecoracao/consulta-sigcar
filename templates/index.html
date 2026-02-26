@@ -3,31 +3,20 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Consulta SIGCAR (TO)</title>
+  <title>Consulta SIGCAR (TO) — Relatório Técnico</title>
 
   <style>
     :root{
       --bg:#0b1220;
-      --bg2:#0f1a2f;
-
-      --card: rgba(255,255,255,.06);
-      --card2: rgba(255,255,255,.08);
-
       --text:#e6edf6;
       --muted:#a9b4c7;
-
       --border: rgba(255,255,255,.10);
       --border2: rgba(255,255,255,.14);
-
       --shadow: 0 18px 50px rgba(0,0,0,.55);
       --shadow2: 0 10px 28px rgba(0,0,0,.40);
-
       --green:#22c55e;
-      --green2:#16a34a;
       --red:#ef4444;
       --amber:#f59e0b;
-      --blue:#60a5fa;
-
       --glass: blur(10px);
     }
 
@@ -69,67 +58,27 @@
         radial-gradient(900px 200px at 90% 0%, rgba(34,197,94,.14), transparent 55%);
     }
 
-    .title{
-      display:flex; align-items:center; gap: 12px;
-    }
-
+    .title{ display:flex; align-items:center; gap: 12px; }
     .flagBox{
-      width: 36px; height: 26px;
-      border-radius: 8px;
+      width: 36px; height: 26px; border-radius: 8px;
       box-shadow: 0 10px 20px rgba(0,0,0,.35);
       border: 1px solid rgba(255,255,255,.14);
-      overflow:hidden;
-      background:#fff;
-      flex: 0 0 auto;
+      overflow:hidden; background:#fff; flex: 0 0 auto;
     }
-
-    .titleText h2{
-      margin:0;
-      font-size: 22px;
-      letter-spacing: .2px;
-      font-weight: 900;
-    }
-    .titleText p{
-      margin: 3px 0 0 0;
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .badgeTop{
-      display:inline-flex;
-      align-items:center;
-      gap: 8px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--border2);
-      background: rgba(255,255,255,.06);
-      color: var(--text);
-      font-weight: 900;
-      font-size: 12px;
-    }
+    .titleText h2{ margin:0; font-size: 22px; font-weight: 900; }
+    .titleText p{ margin: 3px 0 0 0; font-size: 13px; color: var(--muted); }
 
     .formBody{ padding: 16px 18px 18px 18px; }
-
-    .row{
-      display:flex;
-      gap: 14px;
-      flex-wrap: wrap;
-      align-items: end;
-    }
+    .row{ display:flex; gap: 14px; flex-wrap: wrap; align-items: end; }
 
     label{
-      display:block;
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: .7px;
-      text-transform: uppercase;
-      margin-bottom: 6px;
-      color: #dbe7ff;
+      display:block; font-size: 12px; font-weight: 900;
+      letter-spacing: .7px; text-transform: uppercase;
+      margin-bottom: 6px; color: #dbe7ff;
     }
 
     input{
-      width: 420px;
-      max-width: 100%;
+      width: 420px; max-width: 100%;
       padding: 12px 14px;
       border-radius: 14px;
       border: 1px solid rgba(255,255,255,.14);
@@ -137,20 +86,10 @@
       color: var(--text);
       outline: none;
       font-size: 16px;
-      transition: box-shadow .15s ease, border-color .15s ease, background .15s ease;
     }
     input::placeholder{ color: rgba(230,237,246,.55); }
-    input:focus{
-      border-color: rgba(96,165,250,.55);
-      box-shadow: 0 0 0 4px rgba(96,165,250,.16);
-      background: rgba(255,255,255,.08);
-    }
 
-    .hint{
-      color: var(--muted);
-      font-size: 13px;
-      margin-top: 8px;
-    }
+    .hint{ color: var(--muted); font-size: 13px; margin-top: 8px; }
 
     .btn{
       padding: 12px 20px;
@@ -163,10 +102,7 @@
       cursor: pointer;
       box-shadow: var(--shadow2);
       min-width: 170px;
-      transition: transform .06s ease, filter .15s ease;
     }
-    .btn:active{ transform: translateY(1px); }
-    .btn[disabled]{ filter: grayscale(.25) brightness(.85); cursor: not-allowed; }
 
     .btnSecondary{
       padding: 10px 14px;
@@ -177,6 +113,7 @@
       font-weight: 900;
       cursor: pointer;
       box-shadow: var(--shadow2);
+      white-space: nowrap;
     }
     .btnSecondary[disabled]{ opacity:.55; cursor: not-allowed; }
 
@@ -192,9 +129,19 @@
     .msg.error{ background: rgba(239,68,68,.16); color:#ffd6d6; border-color: rgba(239,68,68,.35); }
     .msg.ok{ background: rgba(34,197,94,.14); color:#d9ffe6; border-color: rgba(34,197,94,.35); }
 
-    /* RESULTADOS */
-    .resultWrap{ margin-top: 18px; }
+    .panel{
+      margin-top: 12px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      border-radius: 18px;
+      padding: 12px 12px;
+      box-shadow: var(--shadow2);
+    }
+    .panel h4{ margin:0 0 8px 0; font-size: 14px; font-weight: 1000; }
+    .panel p, .panel li{ margin:0; color: rgba(230,237,246,.86); font-size: 13px; line-height: 1.45; font-weight: 600; }
+    .panel ul{ margin: 8px 0 0 18px; padding:0; }
 
+    .resultWrap{ margin-top: 18px; }
     .resultHeader{
       padding: 16px 18px;
       display:flex;
@@ -205,17 +152,10 @@
       border-bottom: 1px solid var(--border);
       background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
     }
-    .resultHeader h3{
-      margin:0;
-      font-size: 16px;
-      letter-spacing: .2px;
-      font-weight: 1000;
-    }
+    .resultHeader h3{ margin:0; font-size: 16px; font-weight: 1000; }
 
     .chip{
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+      display: inline-flex; align-items: center; gap: 8px;
       padding: 10px 12px;
       border-radius: 999px;
       background: rgba(255,255,255,.06);
@@ -224,51 +164,17 @@
       font-size: 13px;
       font-weight: 900;
       box-shadow: 0 10px 20px rgba(0,0,0,.25);
+      max-width: 100%;
     }
+    .chip .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
 
-    /* STRIP “Startup” */
-    #strip{
-      display:none;
-      margin: 14px 18px 0 18px;
-      border: 1px solid rgba(255,255,255,.12);
-      background:
-        linear-gradient(90deg, rgba(34,197,94,.18), rgba(96,165,250,.14), rgba(245,158,11,.12));
-      border-radius: 16px;
-      padding: 12px 14px;
-      box-shadow: var(--shadow2);
-      align-items:center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .pill{
-      display:inline-flex; align-items:center; gap: 8px;
-      padding: 8px 10px;
-      border-radius: 999px;
-      font-weight: 1000;
-      border: 1px solid rgba(255,255,255,.16);
-      background: rgba(0,0,0,.18);
-      color: var(--text);
-    }
-    .pill.ok{ border-color: rgba(34,197,94,.35); background: rgba(34,197,94,.18); }
-    .pill.bad{ border-color: rgba(239,68,68,.35); background: rgba(239,68,68,.16); }
-    .pill.warn{ border-color: rgba(245,158,11,.35); background: rgba(245,158,11,.16); }
-
-    .stripRight{
-      color: rgba(230,237,246,.90);
-      font-weight: 900;
-      opacity: .95;
-    }
-
-    /* SUMMARY (cards + barra + risco) */
-    #summary{ padding: 16px 18px 18px 18px; display:none; }
+    #summary, #resultArea{ padding: 16px 18px 18px 18px; display:none; }
 
     .cards{
       display: grid;
       grid-template-columns: repeat(4, minmax(190px, 1fr));
       gap: 12px;
     }
-
     .miniCard{
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.06);
@@ -279,43 +185,18 @@
       overflow:hidden;
       backdrop-filter: var(--glass);
     }
-    .miniCard::before{
-      content:"";
-      position:absolute;
-      top:0; left:0; right:0;
-      height: 4px;
-      background: rgba(255,255,255,.18);
-    }
+    .miniCard::before{ content:""; position:absolute; top:0; left:0; right:0; height: 4px; background: rgba(255,255,255,.18); }
     .miniCard.good::before{ background: var(--green); }
     .miniCard.warn::before{ background: var(--amber); }
     .miniCard.bad::before{ background: var(--red); }
 
-    .miniLabel{
-      color: rgba(230,237,246,.78);
-      font-size: 12px;
-      font-weight: 1000;
-      text-transform: uppercase;
-      letter-spacing: .6px;
-      display:flex;
-      gap: 8px;
-      align-items:center;
-      margin-bottom: 8px;
-    }
-    .miniValue{
-      font-size: 16px;
-      font-weight: 1000;
-      line-height: 1.25;
-      word-break: break-word;
-    }
+    .miniLabel{ color: rgba(230,237,246,.78); font-size: 12px; font-weight: 1000; text-transform: uppercase; letter-spacing: .6px; margin-bottom: 8px; }
+    .miniValue{ font-size: 16px; font-weight: 1000; line-height: 1.25; word-break: break-word; }
 
     .badge{
-      display:inline-flex;
-      align-items:center;
-      gap: 8px;
-      padding: 8px 10px;
-      border-radius: 999px;
-      font-weight: 1000;
-      font-size: 13px;
+      display:inline-flex; align-items:center; gap: 8px;
+      padding: 8px 10px; border-radius: 999px;
+      font-weight: 1000; font-size: 13px;
       border: 1px solid rgba(255,255,255,.14);
       background: rgba(0,0,0,.18);
       color: var(--text);
@@ -323,111 +204,6 @@
     .badge.ok{ background: rgba(34,197,94,.18); border-color: rgba(34,197,94,.35); }
     .badge.bad{ background: rgba(239,68,68,.16); border-color: rgba(239,68,68,.35); }
     .badge.warn{ background: rgba(245,158,11,.16); border-color: rgba(245,158,11,.35); }
-
-    .barWrap{
-      margin-top: 12px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.06);
-      border-radius: 18px;
-      padding: 12px;
-      box-shadow: var(--shadow2);
-      backdrop-filter: var(--glass);
-    }
-
-    .barHeader{
-      display:flex;
-      align-items:center;
-      justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 10px;
-    }
-    .barHeader .left{ font-weight: 1000; }
-
-    .kpis{
-      display:flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-    .kpi{
-      padding: 8px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.18);
-      font-weight: 1000;
-      font-size: 13px;
-      display:inline-flex;
-      gap: 8px;
-      align-items:center;
-      color: var(--text);
-    }
-    .dot{ width:10px; height:10px; border-radius:50%; display:inline-block; }
-    .dot.ok{ background: var(--green); }
-    .dot.bad{ background: var(--red); }
-
-    .kpi-total{
-      border-color: rgba(34,197,94,.35);
-      background: rgba(34,197,94,.16);
-    }
-
-    .bar{
-      width:100%;
-      height: 16px;
-      background: rgba(255,255,255,.08);
-      border-radius: 999px;
-      overflow:hidden;
-      display:flex;
-    }
-    .barPart{ height:100%; transition: width .25s ease; }
-    .barPart.legal{ background: var(--green); }
-    .barPart.ilegal{ background: var(--red); }
-
-    .barFooter{
-      display:flex;
-      justify-content: space-between;
-      margin-top: 8px;
-      color: rgba(230,237,246,.75);
-      font-size: 12px;
-      font-weight: 900;
-    }
-
-    .riskBox{
-      margin-top: 10px;
-      border-radius: 16px;
-      padding: 10px 12px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.06);
-      display:flex;
-      align-items:center;
-      justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
-      box-shadow: var(--shadow2);
-      backdrop-filter: var(--glass);
-    }
-    .riskLeft{ font-weight: 1000; letter-spacing:.2px; }
-    .riskTag{
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-weight: 1000;
-      font-size: 13px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.18);
-      color: var(--text);
-    }
-    .riskLow{ background: rgba(34,197,94,.18); border-color: rgba(34,197,94,.35); }
-    .riskMid{ background: rgba(245,158,11,.16); border-color: rgba(245,158,11,.35); }
-    .riskHigh{ background: rgba(239,68,68,.16); border-color: rgba(239,68,68,.35); }
-
-    /* TABELA */
-    #resultArea{ padding: 0 18px 18px 18px; display:none; }
-    .tableTitle{
-      margin: 14px 0 10px;
-      font-size: 14px;
-      font-weight: 1000;
-      color: rgba(230,237,246,.92);
-    }
 
     table{
       width:100%;
@@ -447,22 +223,38 @@
       font-size: 14px;
       color: var(--text);
     }
-    th{
-      background: rgba(255,255,255,.07);
-      font-weight: 1000;
-    }
+    th{ background: rgba(255,255,255,.07); font-weight: 1000; }
     tr:last-child td{ border-bottom: none; }
 
-    #extras{
-      margin-top: 10px;
-      color: rgba(230,237,246,.72);
-      font-size: 13px;
-      font-weight: 900;
-    }
+    .tableTitle{ margin: 14px 0 10px; font-size: 14px; font-weight: 1000; color: rgba(230,237,246,.92); }
+    #extras{ margin-top: 10px; color: rgba(230,237,246,.72); font-size: 13px; font-weight: 900; }
 
-    @media (max-width: 980px){
-      .cards{ grid-template-columns: repeat(2, minmax(190px, 1fr)); }
+    /* ✅ Barra de proporção */
+    #proporcaoArea{ padding: 0 18px 18px 18px; display:none; }
+    .barTrack{
+      width: 100%;
+      height: 14px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.10);
+      position: relative;
     }
+    .barFill{ height: 100%; position: absolute; top: 0; }
+    .barFillLegal{ left: 0; background: rgba(34,197,94,.95); }
+    .barFillIlegal{ right: 0; background: rgba(239,68,68,.90); }
+
+    /* ✅ Rodapé técnico no PDF visual */
+    #reportFooter{
+      padding: 0 18px 16px 18px;
+      color: rgba(230,237,246,.62);
+      font-size: 12px;
+      font-weight: 700;
+      display:none;
+    }
+    #reportFooter .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+
+    @media (max-width: 980px){ .cards{ grid-template-columns: repeat(2, minmax(190px, 1fr)); } }
     @media (max-width: 560px){
       .cards{ grid-template-columns: 1fr; }
       .btn{ width:100%; }
@@ -479,7 +271,6 @@
       <div class="topBar">
         <div class="title">
           <div class="flagBox" aria-hidden="true">
-            <!-- Bandeira do Tocantins embutida -->
             <svg viewBox="0 0 120 84" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
               <rect width="120" height="84" fill="#0a7a3a"/>
               <polygon points="0,72 0,84 120,12 120,0" fill="#ffd400"/>
@@ -495,11 +286,9 @@
 
           <div class="titleText">
             <h2>Consulta por SIGCAR — Tocantins</h2>
-            <p>Consulta rápida de alertas por imóvel (SIGCAR), com resumo visual, risco e relatório PDF.</p>
+            <p>Relatório técnico automatizado com rastreabilidade, metodologia e evidências para auditoria.</p>
           </div>
         </div>
-
-        <div class="badgeTop">⚡ Dashboard</div>
       </div>
 
       <div class="formBody">
@@ -523,26 +312,59 @@
 
         <div id="msg" class="msg"></div>
       </div>
+
+      <!-- ✅ BLOCO INICIAL (ANTES DE CONSULTAR) -->
+      <div id="preInfo" style="padding: 0 18px 18px 18px;">
+        <div class="panel">
+          <h4>Metodologia (reprodutível)</h4>
+          <ul>
+            <li>1) Consulta automática por número SIGCAR nas bases públicas ArcGIS.</li>
+            <li>2) Prioridade: layers “desmatamento_legal” e “desmatamento_ilegal” (Seção IV).</li>
+            <li>3) Consolidação: soma das áreas (ha) por categoria (legal/ilegal) e cálculo do total.</li>
+            <li>4) Ano: quando informado, tenta-se compatibilizar; se inexistente, retorna ano selecionado nulo.</li>
+            <li>5) Status: classificado por critério objetivo e reprodutível (legal vs ilegal).</li>
+            <li>6) Fallback: se não houver registros na Seção IV, consulta-se “Imoveis_alerta_23_24”.</li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <h4>Bases consultadas (transparência)</h4>
+          <ul>
+            <li>desmatamento_legal (Seção IV)</li>
+            <li>desmatamento_ilegal (Seção IV)</li>
+            <li>Imoveis_alerta_23_24 (fallback)</li>
+          </ul>
+          <p style="margin-top:8px; opacity:.9;">
+            As URLs completas constam no relatório PDF e nas evidências (JSON).
+          </p>
+        </div>
+      </div>
     </div>
 
-    <!-- CARD RESULTADOS -->
+    <!-- CARD RESULTADOS (vira PDF visual) -->
     <div id="pdfArea" class="card resultWrap" style="display:none;">
       <div class="resultHeader">
         <h3>Resultado</h3>
 
         <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
           <div id="source" class="chip" style="display:none;"></div>
+          <div id="consultaEm" class="chip" style="display:none;"></div>
+
+          <!-- ✅ Cadeia de custódia -->
+          <div id="reportIdChip" class="chip" style="display:none;">
+            🆔 ID: <span id="reportId" class="mono"></span>
+          </div>
+          <div id="hashChip" class="chip" style="display:none;">
+            🔐 SHA-256: <span id="hashShort" class="mono"></span>
+          </div>
+
+          <button id="btnCopy" class="btnSecondary" disabled>📋 Copiar resumo</button>
+          <button id="btnEvidence" class="btnSecondary" disabled>🧾 Baixar evidências (JSON)</button>
           <button id="btnPdf" class="btnSecondary" disabled>📄 Gerar relatório em PDF</button>
         </div>
       </div>
 
-      <!-- strip startup -->
-      <div id="strip">
-        <div id="stripPill" class="pill">—</div>
-        <div class="stripRight" id="stripRight">—</div>
-      </div>
-
-      <!-- ✅ RESUMO (cards + barra + risco) -->
+      <!-- ✅ RESUMO (cards) -->
       <div id="summary">
         <div class="cards">
           <div id="cardStatus" class="miniCard">
@@ -553,7 +375,7 @@
           </div>
 
           <div class="miniCard">
-            <div class="miniLabel">📏 Área desmatada (ha)</div>
+            <div class="miniLabel">📏 Área desmatada total (ha)</div>
             <div class="miniValue" id="cardAreaTotal">—</div>
           </div>
 
@@ -567,31 +389,33 @@
             <div class="miniValue" id="cardImovel">—</div>
           </div>
         </div>
+      </div>
 
-        <div class="barWrap">
-          <div class="barHeader">
-            <div class="left">Proporção de Desmatamento Autorizado x Não Autorizado</div>
-            <div class="kpis">
-              <span class="kpi kpi-total" id="kpiTotal"><strong>Total:</strong> —</span>
-              <span class="kpi"><span class="dot ok"></span> <span id="lblLegal">Autorizado: —</span> <small id="pctLegal" style="opacity:.85;"></small></span>
-              <span class="kpi"><span class="dot bad"></span> <span id="lblIlegal">Não autorizado: —</span> <small id="pctIlegal" style="opacity:.85;"></small></span>
-            </div>
+      <!-- ✅ Proporção + Risco -->
+      <div id="proporcaoArea">
+        <div class="miniCard" style="padding: 14px;">
+          <div class="miniLabel">📊 Proporção de Desmatamento Autorizado x Não Autorizado</div>
+
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin:10px 0 12px 0;">
+            <span class="chip" id="chipTotal">Total: —</span>
+            <span class="chip" id="chipLegal">Autorizado: —</span>
+            <span class="chip" id="chipIlegal">Não autorizado: —</span>
           </div>
 
-          <div class="bar">
-            <div id="barLegal" class="barPart legal" style="width:0%"></div>
-            <div id="barIlegal" class="barPart ilegal" style="width:0%"></div>
+          <div class="barTrack">
+            <div id="barLegal" class="barFill barFillLegal" style="width:0%"></div>
+            <div id="barIlegal" class="barFill barFillIlegal" style="width:0%"></div>
           </div>
 
-          <div class="barFooter">
-            <span id="barFooterLeft">—</span>
-            <span id="barFooterRight">—</span>
+          <div style="display:flex; justify-content:space-between; margin-top:8px; color: rgba(230,237,246,.72); font-weight:900; font-size:13px;">
+            <span id="txtLegal">0% autorizado</span>
+            <span id="txtIlegal">0% não autorizado</span>
           </div>
         </div>
 
-        <div class="riskBox">
-          <div class="riskLeft">Classificação de risco ambiental</div>
-          <div id="riskTag" class="riskTag">—</div>
+        <div class="miniCard" style="padding: 14px; margin-top:12px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+          <div class="miniLabel">🧭 Classificação de risco ambiental</div>
+          <span id="badgeRisco" class="badge">—</span>
         </div>
       </div>
 
@@ -609,14 +433,24 @@
         </table>
         <div id="extras"></div>
       </div>
+
+      <!-- ✅ Rodapé técnico (entra no PDF visual) -->
+      <div id="reportFooter">
+        <div>
+          Relatório gerado automaticamente • ID <span id="footerReportId" class="mono"></span> •
+          SHA-256 <span id="footerHash" class="mono"></span>
+        </div>
+        <div style="margin-top:4px;">
+          Versão <span id="footerVersion" class="mono"></span> • Ambiente <span id="footerEnv" class="mono"></span>
+        </div>
+      </div>
     </div>
 
   </div>
 
-  <!-- libs para PDF -->
+  <!-- ✅ IMPORTANTE: html2canvas vem antes do app.js -->
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-
   <script src="/static/app.js"></script>
 </body>
 </html>
